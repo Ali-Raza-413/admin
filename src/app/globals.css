@@ -38,3 +38,48 @@ body {
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #edf2f7; /* Light gray track */
 }
+.p-checkbox-box {
+  display: none; /* Hide the tick mark */
+}
+
+.p-checkbox .p-checkbox-input {
+  background-color: black !important; /* Set background color for the checkbox input */
+  color: white !important; /* Set text color to white */
+  width: 15px; /* Set width */
+  height: 15px; /* Set height */
+  border-radius: 4px; /* Optional: Make the checkbox rounded */
+}
+.custom-paginator .p-paginator {
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #EEF2F7;
+}
+.custom-paginator .p-paginator .p-paginator-page {
+  margin: 0 0.25rem; /* Adjust spacing between page numbers */
+}
+
+.custom-paginator .p-paginator .p-paginator-page,
+.custom-paginator .p-paginator .p-paginator-first,
+.custom-paginator .p-paginator .p-paginator-prev,
+.custom-paginator .p-paginator .p-paginator-next,
+.custom-paginator .p-paginator .p-paginator-last {
+  background-color: #D9D9D9; /* Button background color */
+  color: #596068; /* Button text color */
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+
+/* Style for the active page button */
+.custom-paginator .p-paginator .p-paginator-page.p-highlight {
+  background-color: black;/* Different color for active page */
+  color: #fff;
+}
+.p-datatable-emptymessage{
+  color: black;
+}

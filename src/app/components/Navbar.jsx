@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="bg-white shadow-md rounded-xl">
+    <div className="bg-gray-100 p-3 shadow-md rounded-xl">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -14,7 +14,7 @@ const Navbar = () => {
           <h1 className="text-lg font-bold text-gray-800">MyWebsite</h1>
         </div>
 
-        {/* Search Bar */}
+        {/* Search Bar
         <div className="flex-1 mx-4">
           <div className="relative">
             <input
@@ -37,7 +37,7 @@ const Navbar = () => {
               />
             </svg>
           </div>
-        </div>
+        </div> */}
 
         {/* Icons and Profile */}
         <div className="flex items-center gap-4">

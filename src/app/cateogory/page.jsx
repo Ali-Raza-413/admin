@@ -8,6 +8,7 @@ import {
   getHeaderStyle,
   getBodyStyle,
 } from "../components/Datatablestyle/Datatablestyle";
+import BackButton from "../components/BackButton";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([
@@ -202,16 +203,13 @@ const ProductManagement = () => {
   return (
     <div className="p-4 space-y-4 bg-white min-h-screen">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold text-black">
-          ALL CATEGORIES LIST
-        </h1>
-        <button
-          className="bg-gray-600 text-white px-6 py-2 rounded-lg"
-          onClick={() => router.push("/cateogory/addcategory")}
-        >
-          Add Category
-        </button>
+      <div className="flex items-center gap-2 mb-6">
+        <BackButton />
+        <h1 className="text-2xl font-bold text-black">All Category List</h1>
       </div>
+      
+      </div>
+      <div className="flex justify-between">
       <div className="flex items-center gap-4">
         <select
           value={category}
@@ -240,9 +238,16 @@ const ProductManagement = () => {
           placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-[40%] max-w-sm px-3 py-2 border bg-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className=" max-w-sm px-3 py-2 border bg-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
+      <button
+          className="bg-gray-600 text-white px-6 py-2 rounded-lg"
+          onClick={() => router.push("/cateogory/addcategory")}
+        >
+          Add Category
+        </button>
+        </div>
       <div className="bg-white rounded-lg shadow-md overflow-x-auto custom-scrollbar">
         <DataTable
           value={filteredProducts}
@@ -253,6 +258,7 @@ const ProductManagement = () => {
           scrollable
           tableStyle={{ minWidth: "100rem" }}
           rows={10}
+          className="custom-paginator"
         >
           <Column
             selectionMode="multiple"
