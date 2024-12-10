@@ -4,7 +4,10 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { getHeaderStyle,getBodyStyle } from "../components/Datatablestyle/Datatablestyle";
+import {
+  getHeaderStyle,
+  getBodyStyle,
+} from "../components/Datatablestyle/Datatablestyle";
 import BackButton from "../components/BackButton";
 import { useRouter } from "next/navigation";
 const Customer = () => {
@@ -63,6 +66,7 @@ const Customer = () => {
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -137,7 +141,7 @@ const Customer = () => {
 
   return (
     <div className="p-4">
-   <div className="flex justify-between mt-5">
+      <div className="flex justify-between mt-5">
         <div className="flex items-center gap-2  ">
           <BackButton />
           <h1 className="text-2xl font-bold text-black ">ALL CUSTOMERS LIST</h1>
@@ -161,17 +165,70 @@ const Customer = () => {
       </div>
 
       {/* DataTable */}
-      <DataTable value={filteredCustomers} className="shadow-md">
-        <Column field="customerName" header="Customer Name" headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()}/>
-        <Column field="email" header="Email" headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()} />
-        <Column field="location" header="Location" headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()} />
-        <Column field="phone" header="Phone"  headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()}/>
-        <Column field="address" header="Address" headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()}/>
-        <Column field="orderDate" header="Order Date" headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()} />
-        <Column field="status" header="Status" body={statusTemplate} headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()} />
-        <Column body={actionTemplate} header="Actions" headerStyle={getHeaderStyle()} bodyStyle={getBodyStyle()}/>
+      <div className="overflow-x-auto custom-scrollbar">
+      <DataTable
+        value={filteredCustomers}
+        className="shadow-md "
+        selection={selectedCustomers}
+        onSelectionChange={(e) => setSelectedCustomers(e.value)}
+        tableStyle={{ minWidth: "80rem" }}
+      >
+        <Column
+          selectionMode="multiple"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="customerName"
+          header="Customer Name"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="email"
+          header="Email"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="location"
+          header="Location"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="phone"
+          header="Phone"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="address"
+          header="Address"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="orderDate"
+          header="Order Date"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          field="status"
+          header="Status"
+          body={statusTemplate}
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
+        <Column
+          body={actionTemplate}
+          header="Actions"
+          headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()}
+        />
       </DataTable>
-
+      </div>
       {/* Edit Modal */}
       {isEditModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

@@ -115,7 +115,7 @@ const Sellers = () => {
         </div>
         <button
           className="bg-gray-600 text-white px-6 py-2 rounded-lg mt-2"
-        //   onClick={() => router.push("/customers/addcustomer")}
+          onClick={() => router.push("/sellers/addseller")}
         >
           Add Seller
         </button>
@@ -129,15 +129,16 @@ const Sellers = () => {
           className="w-[30%] text-black p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
-
+      <div className="overflow-x-auto custom-scrollbar">
       <DataTable
         value={filteredCustomers}
         selection={selectedCustomers}
         onSelectionChange={(e) => setSelectedCustomers(e.value)}
         dataKey="id"
-        className="shadow-md"
+        tableStyle={{ minWidth: "80rem" }}
       >
-        <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
+        <Column selectionMode="multiple"  headerStyle={getHeaderStyle()}
+          bodyStyle={getBodyStyle()} />
         <Column
           field="ownerName"
           header="Owner Name"
@@ -188,6 +189,7 @@ const Sellers = () => {
           bodyStyle={getBodyStyle()}
         />
       </DataTable>
+      </div>
       {isEditModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-md shadow-lg w-1/3">

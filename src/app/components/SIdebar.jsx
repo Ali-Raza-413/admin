@@ -27,7 +27,8 @@ const sidebarItems = [
   },
   { to: "/storeapproval", icon: "/a6.png", label: "Store Approval" },
   { to: "/subscription", icon: "/a9.png", label: "Subscription Method" },
-  { to: "/support", icon: "/a10.png", label: "Push Notifications" },
+  { to: "/notifications", icon: "/e2.png", label: "Push Notifications" },
+  { to: "/setting", icon: "/e3.png", label: "Settings" },
 ];
 
 const Sidebar = () => {
@@ -39,7 +40,9 @@ const Sidebar = () => {
   useEffect(() => {
     sidebarItems.forEach((item) => {
       if (item.subItems) {
-        const activeSubItem = item.subItems.find((subItem) => subItem.to === pathname);
+        const activeSubItem = item.subItems.find(
+          (subItem) => subItem.to === pathname
+        );
         if (activeSubItem) {
           setActiveItem(activeSubItem.label);
           setOpenDropdown((prev) => ({ ...prev, [item.label]: true }));
@@ -75,7 +78,9 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col bg-black h-screen font-sans">
       <div className="p-5">
-        <h1 className="text-white font-bold text-2xl start pt-3">Near by Store</h1>
+        <h1 className="text-white font-bold text-2xl start pt-3">
+          Near by Store
+        </h1>
         <div className="pt-5">
           {sidebarItems.map((item) => (
             <div key={item.label}>
@@ -113,7 +118,9 @@ const Sidebar = () => {
                     <div
                       key={subItem.label}
                       className={`flex items-center px-3 py-2 text-md text-white hover:bg-gray-700 ${
-                        activeItem === subItem.label ? "bg-gray-400 rounded-lg" : ""
+                        activeItem === subItem.label
+                          ? "bg-gray-400 rounded-lg"
+                          : ""
                       }`}
                       onClick={() => handleItemClick(subItem.label, subItem.to)}
                     >

@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
           <div className="admin-panel">
             {/* Admin panel content here */}
 
-            <div className="flex h-screen gap-3 p-3">
+            <div className="flex h-screen  gap-3 p-3">
               {/* Sidebar */}
-              <div className="w-[300px]  rounded-tl-lg rounded-xl overflow-y-auto h-full scrollbar-hide">
+              <div className="w-[300px] bg-black rounded-tl-lg rounded-xl overflow-y-auto h-full scrollbar-hide">
                 <Sidebar />
               </div>
 
