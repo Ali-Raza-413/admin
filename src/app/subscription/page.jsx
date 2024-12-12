@@ -1,9 +1,9 @@
-"use client"; // Marking this file for client-side only
+"use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import BackButton from "../components/BackButton";
-import { useRouter } from "next/navigation"; // Ensure correct import based on your Next.js version
+import { useRouter } from "next/navigation";
 
 const plans = [
   {
@@ -62,20 +62,128 @@ const plans = [
   },
   // Other plans go here...
 ];
+const Modal = ({ isOpen, onClose, plan, type, onConfirm }) => {
+  const [editablePlan, setEditablePlan] = useState(plan || {});
 
-const SubscriptionPlans = () => {
-  const router = useRouter();
+  if (!isOpen) return null;
 
-  // Function to handle the edit action
-  const handleEdit = (planTitle) => {
-    console.log("Editing", planTitle);
-    // Additional logic for editing
+  const handleChange = (field, value) => {
+    setEditablePlan({ ...editablePlan, [field]: value });
   };
 
-  // Function to handle the delete action
-  const handleDelete = (planTitle) => {
-    console.log("Deleting", planTitle);
-    // Additional logic for deleting
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 rounded-lg shadow-md w-[90%] max-w-md">
+        <h2 className="text-xl font-semibold mb-4  text-black">
+          {type === "edit" ? "Edit Plan" : "Delete Plan"}
+        </h2>
+
+        {type === "edit" ? (
+          <div>
+            <p className="text-sm mb-4  text-black">
+              You are editing the plan: <strong>{editablePlan.title}</strong>.
+            </p>
+            {/* Editable Fields */}
+            <div className="space-y-4">
+              <input
+                type="text"
+                className="w-full px-4 py-2 rounded-lg bg-gray-100 text-black"
+                value={editablePlan.title}
+                onChange={(e) => handleChange("title", e.target.value)}
+                placeholder="Plan Title"
+              />
+              <input
+                type="text"
+                className="w-full px-4 py-2 rounded-lg bg-gray-100 text-black"
+                value={editablePlan.price}
+                onChange={(e) => handleChange("price", e.target.value)}
+                placeholder="Plan Price"
+              />
+              <input
+                type="text"
+                className="w-full px-4 py-2 rounded-lg bg-gray-100 text-black"
+                value={editablePlan.users}
+                onChange={(e) => handleChange("users", e.target.value)}
+                placeholder="Number of Users"
+              />
+              <textarea
+                className="w-full px-4 py-2 rounded-lg bg-gray-100 text-black"
+                value={editablePlan.detail}
+                onChange={(e) => handleChange("detail", e.target.value)}
+                placeholder="Plan Detail"
+              ></textarea>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                onClick={onClose}
+                className="border border-black bg-white text-black px-4 py-2 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => onConfirm(editablePlan)}
+                className="bg-black text-white px-4 py-2 rounded-lg"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p className="text-sm mb-4 font-semibold  text-black">
+              Are you sure you want to delete the plan:{" "}
+              <strong>{plan.title}</strong>?
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={onClose}
+                className="border border-black bg-white text-black px-4 py-2 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => onConfirm(plan)}
+                className="bg-black text-white px-4 py-2 rounded-lg"
+              >
+                Confirm Delete
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const SubscriptionPlans = () => {
+  const [modalType, setModalType] = useState(null); // "edit" or "delete"
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const openModal = (type, plan) => {
+    setModalType(type);
+    setSelectedPlan(plan);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPlan(null);
+    setModalType(null);
+  };
+
+  const handleEdit = (plan) => {
+    console.log("Editing Plan:", plan);
+    closeModal();
+    // Add logic to handle edit
+  };
+
+  const handleDelete = (plan) => {
+    console.log("Deleting Plan:", plan);
+    closeModal();
+    // Add logic to handle delete
   };
 
   return (
@@ -87,9 +195,7 @@ const SubscriptionPlans = () => {
         </div>
         <button
           className="bg-gray-600 text-white px-6 py-2 rounded-lg mt-2"
-          onClick={() => {
-            router.push("/subscription/addnewplan");
-          }}
+          onClick={() => router.push("/subscription/addnewplan")}
         >
           Add New Plan
         </button>
@@ -102,8 +208,6 @@ const SubscriptionPlans = () => {
             className="p-6 rounded-lg shadow-md bg-white border border-black"
           >
             <div className="flex items-center justify-between mb-4">
-              {/* Checkbox */}
-              {/* Image */}
               <img
                 src={plan.image}
                 alt={`${plan.title} Image`}
@@ -112,37 +216,30 @@ const SubscriptionPlans = () => {
               <input type="checkbox" className="w-5 h-5" />
             </div>
 
-            {/* Title and Actions */}
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold text-black">{plan.title}</h3>
-
-              {/* Edit and Delete Icons */}
               <div className="flex gap-2">
                 <FaEdit
-                  onClick={() => handleEdit(plan.title)} // Calling handleEdit function
+                  onClick={() => openModal("edit", plan)}
                   className="text-black cursor-pointer"
                 />
                 <FaTrash
-                  onClick={() => handleDelete(plan.title)} // Calling handleDelete function
+                  onClick={() => openModal("delete", plan)}
                   className="text-red-500 cursor-pointer"
                 />
               </div>
             </div>
 
             <p className="text-sm text-black">{plan.users}</p>
-
-            {/* Price and Detail */}
             <p className="text-xl font-semibold mt-3 text-black">
               {plan.price}
             </p>
             <p className="text-sm text-black">{plan.detail}</p>
 
-            {/* Button */}
             <button className="px-4 py-2 rounded-lg font-semibold mt-3 w-full text-center bg-black text-white">
               UPGRADE NOW
             </button>
 
-            {/* Features */}
             <ul className="mb-6 space-y-2 mt-6 text-sm text-[#555964]">
               {plan.features.map((feature, featureIndex) => (
                 <li
@@ -157,6 +254,14 @@ const SubscriptionPlans = () => {
           </div>
         ))}
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        plan={selectedPlan}
+        type={modalType}
+        onConfirm={modalType === "edit" ? handleEdit : handleDelete}
+      />
     </>
   );
 };

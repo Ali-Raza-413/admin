@@ -238,7 +238,7 @@ const ProductManagement = () => {
           placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className=" max-w-sm px-3 py-2 border bg-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className=" max-w-sm px-3 text-black py-2 border bg-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
       <button

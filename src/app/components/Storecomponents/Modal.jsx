@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Modal = ({ isOpen, onClose, store = { title: "", description: "", location: "" }, onSave }) => {
-  const [formData, setFormData] = useState(() => ({
-    title: store?.title || "",
-    description: store?.description || "",
-    location: store?.location || "",
-  }));
+const Modal = ({ isOpen, onClose, store = {}, onSave }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    location: "",
+  });
 
-  if (typeof window !== "undefined" && !isOpen) return null;
+  // Sync formData with the `store` prop when the modal opens
+  useEffect(() => {
+    if (isOpen && store) {
+      setFormData({
+        title: store.title || "",
+        description: store.description || "",
+        location: store.location || "",
+      });
+    }
+  }, [isOpen, store]);
+
+  if (!isOpen) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;

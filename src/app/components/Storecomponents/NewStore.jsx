@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import StoreCard from "./StoreCard";
+import Modal from "./Modal";
 
 const storeData = [
   {
@@ -55,16 +56,48 @@ const storeData = [
 ];
 
 const NewStore = () => {
-  const newStores = storeData.filter((store) => store.status === "New");
+  const [stores, setStores] = useState(storeData);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentStore, setCurrentStore] = useState(null);
+
+  const newStores = stores.filter((store) => store.status === "New");
+
+  const handleEdit = (store) => {
+    setCurrentStore(store);
+    setIsModalOpen(true);
+  };
+
+  const handleSave = (updatedStore) => {
+    setStores((prevStores) =>
+      prevStores.map((store) =>
+        store.title === updatedStore.title ? updatedStore : store
+      )
+    );
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="p-4">
       {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {newStores.map((store, index) => (
-          <StoreCard key={index} store={store} isChecked={store.status === "Approved"} />
+          <StoreCard
+            key={index}
+            store={store}
+            onEdit={() => handleEdit(store)} // Open modal for edit
+          />
         ))}
       </div>
+
+      {/* Modal Component */}
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          store={currentStore}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 };

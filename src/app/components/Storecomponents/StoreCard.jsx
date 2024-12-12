@@ -1,7 +1,10 @@
+"useclient";
 import React from "react";
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const StoreCard = ({ store, isChecked, onEdit }) => {
+  const router = useRouter();
   return (
     <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-sm">
       {/* Top Section */}
@@ -37,17 +40,17 @@ const StoreCard = ({ store, isChecked, onEdit }) => {
         {/* Location */}
         <div className="flex items-center text-gray-700 mt-3">
           <FaMapMarkerAlt className="w-4 h-4 mr-2" />
-          <span className="text-sm">{store.location}</span>
+          <span className="text-sm text-gray-700">{store.location}</span>
         </div>
 
         {/* Contact Info */}
         <div className="flex items-center text-gray-700 mt-2">
           <FaEnvelope className="w-4 h-4 mr-2" />
-          <span className="text-sm">{store.email}</span>
+          <span className="text-sm text-gray-700">{store.email}</span>
         </div>
         <div className="flex items-center text-gray-700 mt-2">
           <FaPhoneAlt className="w-4 h-4 mr-2" />
-          <span className="text-sm">{store.phone}</span>
+          <span className="text-sm text-gray-700">{store.phone}</span>
         </div>
 
         {/* Product and Item Stats */}
@@ -72,7 +75,9 @@ const StoreCard = ({ store, isChecked, onEdit }) => {
           >
             Edit Profile
           </button>
-          <button className="bg-black text-sm text-white py-2 px-2 rounded-md font-semibold">
+          <button className="bg-black text-sm text-white py-2 px-2 rounded-md font-semibold"
+           onClick={() => router.push("/storeapproval/viewprofile")} 
+           >
             View Profile
           </button>
         </div>

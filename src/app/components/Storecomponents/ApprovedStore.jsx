@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import StoreCard from "./StoreCard";
 import Modal from "./Modal";
+
 const storeData = [
   {
     title: "SuperMart",
@@ -50,23 +51,20 @@ const ApprovedStore = () => {
         store.title === updatedStore.title ? updatedStore : store
       )
     );
+    setIsModalOpen(false);
   };
 
   return (
     <div className="p-4">
-      {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stores.map((store, index) => (
           <StoreCard
             key={index}
             store={store}
-            isChecked={store.status === "Approved"}
             onEdit={() => handleEdit(store)}
           />
         ))}
       </div>
-
-      {/* Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

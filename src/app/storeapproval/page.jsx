@@ -1,8 +1,12 @@
+"use client";
 import React from "react";
 import StoreTabbar  from "../components/Storecomponents/StoreTabbar";
 import BackButton from "../components/BackButton";
+import { useRouter } from "next/navigation";
 
 const StoreApproval = () => {
+
+  const router = useRouter();
   return (
     <>
     <div className="flex justify-between py-5 p-4">
@@ -12,7 +16,7 @@ const StoreApproval = () => {
       </div>
       <button
         className="bg-gray-600 text-white px-6 py-2 rounded-lg mt-2"
-        //   onClick={() => router.push("/customers/addcustomer")}
+          onClick={() => router.push("/storeapproval/addstore")}
       >
         Add Store
       </button>
