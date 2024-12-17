@@ -202,7 +202,7 @@ const CategoriesTable = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h2 className="text-xl mb-4">Delete Category</h2>
             <p>
-              Are you sure you want to delete the category "{currentCategory?.name}"?
+              Are you sure you want to delete the category &quot;{currentCategory?.name}&quot;?
             </p>
             <div className="flex gap-4 mt-4">
               <button
