@@ -82,7 +82,7 @@ const AttributesPage = () => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between mt-5">
+      <div className="flex   flex-col  lg:flex-row justify-between mt-5">
         <div className="flex items-center gap-2  ">
           <BackButton />
           <h1 className="text-2xl font-bold text-black ">Attributes</h1>

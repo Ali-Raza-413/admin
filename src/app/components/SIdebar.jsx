@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineUp, AiOutlineMenu } from "react-icons/ai";
 import Image from "next/image";
 
 const sidebarItems = [
   { to: "/dashboard", icon: "/a1.png", label: "Dashboard" },
   {
-    to: null, // No direct path for Category
+    to: null,
     icon: "/a4.png",
     label: "Category",
     subItems: [
@@ -17,7 +17,7 @@ const sidebarItems = [
     ],
   },
   {
-    to: null, // No direct path for User Management
+    to: null,
     icon: "/a6.png",
     label: "User Management",
     subItems: [
@@ -32,11 +32,11 @@ const sidebarItems = [
 ];
 
 const Sidebar = () => {
-  const pathname = usePathname(); // Get current path
+  const pathname = usePathname();
   const [activeItem, setActiveItem] = useState("");
   const [openDropdown, setOpenDropdown] = useState({});
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Automatically set the active item and open the parent dropdown based on the current path
   useEffect(() => {
     sidebarItems.forEach((item) => {
       if (item.subItems) {
@@ -53,7 +53,6 @@ const Sidebar = () => {
     });
   }, [pathname]);
 
-  // Toggle the dropdown state for a specific item
   const toggleDropdown = (label) => {
     setOpenDropdown((prevState) => ({
       ...prevState,
@@ -61,7 +60,6 @@ const Sidebar = () => {
     }));
   };
 
-  // Handle click to set the active item
   const handleItemClick = (label, to) => {
     setActiveItem(label);
     if (to) {
@@ -69,73 +67,88 @@ const Sidebar = () => {
     }
   };
 
-  // Function to dynamically set the active class based on the item
   const getTabClass = (label) =>
     `flex items-center mt-3 px-3 py-3 cursor-pointer text-white hover:bg-gray-700 ${
       activeItem === label ? "bg-gray-400 rounded-lg text-white" : ""
     }`;
 
   return (
-    <div className="flex flex-col bg-black h-screen font-sans">
-      <div className="p-5">
-        <h1 className="text-white font-bold text-2xl start pt-3">
-          Near by Store
-        </h1>
-        <div className="pt-5">
-          {sidebarItems.map((item) => (
-            <div key={item.label}>
-              <div
-                className={getTabClass(item.label)}
-                onClick={() =>
-                  item.subItems
-                    ? toggleDropdown(item.label)
-                    : handleItemClick(item.label, item.to)
-                }
-              >
-                <Image
-                  src={item.icon}
-                  alt={item.label}
-                  width={24}
-                  height={24}
-                  className="mr-4"
-                />
-                <span className="ml-2">{item.label}</span>
-                {item.subItems && (
-                  <span className="ml-auto">
-                    {openDropdown[item.label] ? (
-                      <AiOutlineUp className="w-4 h-4 text-white" />
-                    ) : (
-                      <AiOutlineDown className="w-4 h-4 text-white" />
-                    )}
-                  </span>
+    <div>
+      {/* Mobile Menu Button */}
+      <button
+        className="lg:hidden p-3 bg-gray-200 text-black fixed top-3 left-1 z-50 rounded-full"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+      >
+        <AiOutlineMenu className="w-6 h-6" />
+      </button>
+
+      {/* Sidebar Menu */}
+      <div
+        className={`fixed top-0 left-0 h-full bg-black transform ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 z-40 w-64 lg:static lg:transform-none lg:w-full`}
+      >
+        <div className="p-5 ">
+          <h1 className="text-white font-bold text-2xl start pt-3">
+            Near by Store
+          </h1>
+          <div className="pt-5">
+            {sidebarItems.map((item) => (
+              <div key={item.label}>
+                <div
+                  className={getTabClass(item.label)}
+                  onClick={() =>
+                    item.subItems
+                      ? toggleDropdown(item.label)
+                      : handleItemClick(item.label, item.to)
+                  }
+                >
+                  <Image
+                    src={item.icon}
+                    alt={item.label}
+                    width={24}
+                    height={24}
+                    className="mr-4"
+                  />
+                  <span className="ml-2">{item.label}</span>
+                  {item.subItems && (
+                    <span className="ml-auto">
+                      {openDropdown[item.label] ? (
+                        <AiOutlineUp className="w-4 h-4 text-white" />
+                      ) : (
+                        <AiOutlineDown className="w-4 h-4 text-white" />
+                      )}
+                    </span>
+                  )}
+                </div>
+
+                {item.subItems && openDropdown[item.label] && (
+                  <div className="ml-8 mt-2">
+                    {item.subItems.map((subItem) => (
+                      <div
+                        key={subItem.label}
+                        className={`flex items-center px-3 py-2 text-md text-white hover:bg-gray-700 ${
+                          activeItem === subItem.label
+                            ? "bg-gray-400 rounded-lg"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          handleItemClick(subItem.label, subItem.to)
+                        }
+                      >
+                        <img
+                          src="/fr.png"
+                          alt="right icon"
+                          className="w-6 h-6 mr-1"
+                        />
+                        {subItem.label}
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
-
-              {/* Render subItems if dropdown is open */}
-              {item.subItems && openDropdown[item.label] && (
-                <div className="ml-8 mt-2">
-                  {item.subItems.map((subItem) => (
-                    <div
-                      key={subItem.label}
-                      className={`flex items-center px-3 py-2 text-md text-white hover:bg-gray-700 ${
-                        activeItem === subItem.label
-                          ? "bg-gray-400 rounded-lg"
-                          : ""
-                      }`}
-                      onClick={() => handleItemClick(subItem.label, subItem.to)}
-                    >
-                      <img
-                        src="/fr.png"
-                        alt="right icon"
-                        className="w-6 h-6 mr-1"
-                      />
-                      {subItem.label}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

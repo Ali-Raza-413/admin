@@ -42,7 +42,7 @@ const Navbar = () => {
         {/* Icons and Profile */}
         <div className="flex items-center gap-4">
           {/* Notification Icon */}
-          <div className="relative cursor-pointer">
+          {/* <div className="relative cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -58,7 +58,7 @@ const Navbar = () => {
               />
             </svg>
             <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-          </div>
+          </div> */}
 
           {/* Profile Image */}
           <img
